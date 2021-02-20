@@ -20,6 +20,16 @@
     transform: translate(-50%, -50%);
 }
 
+.intro{
+    z-index: 19;
+    position: fixed;
+    top: 50%;
+    left: 49%;
+    transform: translate(-50%, -50%);
+    width: 740px;
+    height: 490px;
+}
+
 #canvas{
     z-index: 20;
     position: fixed;
@@ -48,22 +58,85 @@
 }
 
 #fight{
-    font-size: 50px;
+    font-size: 35px;
     font-family: Comic Sans MS;
     background-color: white;
-    /* margin-left: 670px;
-    margin-top: 430px; */
-    top: 67%;
-    left: 54%;
+    top: 68%;
+    left: 53%;
     transform: translate(-50%, -50%);
-    width: 220px;
+    width: 160px;
     border-radius: 12px;
     z-index: 100;
     position: fixed;
-    border-style: none;
     display: none;
 }
 
 #fight:hover{
     cursor: pointer
+}
+
+#attack{
+    font-size: 35px;
+    font-family: Comic Sans MS;
+    background-color: white;
+    top: 77%;
+    left: 53%;
+    transform: translate(-50%, -50%);
+    width: 160px;
+    border-radius: 12px;
+    z-index: 100;
+    position: fixed;
+    display: none;
+}
+
+#attack:hover{
+    cursor: pointer
+}
+
+#defense{
+    font-size: 35px;
+    font-family: Comic Sans MS;
+    background-color: white;
+    top: 77%;
+    left: 64%;
+    transform: translate(-50%, -50%);
+    width: 160px;
+    border-radius: 12px;
+    z-index: 100;
+    position: fixed;
+    display: none;
+}
+
+#defense:hover{
+    cursor: pointer
+}
+
+#playertext{
+    font-size: 25px;
+    font-family: Comic Sans MS;
+    background-color: white;
+    top: 66%;
+    left: 36%;
+    transform: translate(-50%, -50%);
+    /* width: 160px; */
+    border-radius: 12px;
+    z-index: 100;
+    position: fixed;
+    /* display: none; */
+    /* border: 2px solid red; */
+}
+
+#pctext{
+    font-size: 25px;
+    font-family: Comic Sans MS;
+    background-color: white;
+    top: 74%;
+    left: 36%;
+    transform: translate(-50%, -50%);
+    /* width: 160px; */
+    border-radius: 12px;
+    z-index: 100;
+    position: fixed;
+    /* display: none; */
+    /* border: 2px solid red; */
 }

@@ -10,7 +10,8 @@
 <body>
     <div class="container">
         <img src="./images/gameboy.png" class="gameboy-advance" alt="gameboy-advance">
-        <canvas id="canvas" width="740" height="480"></canvas>
+        <img src="./images/Background.png" class="intro" alt="game-opening">
+        <canvas id="canvas" width="740" height="490"></canvas>
     </div>
     <div>
         <button id="start">Play!</button>
@@ -18,7 +19,16 @@
     <div>
         <button id="fight">>Fight</button>
     </div>
-
+    <div>
+        <button id="attack">+Att</button>
+    </div>
+    <div>
+        <button id="defense">-Def</button>
+    </div>
+    <div>
+        <h1 id="playertext"></h1>
+        <h1 id="pctext"></h1>
+    </div>
     <script type="text/javascript" src="./src/index.js"></script>
     <script type="text/javascript" src="./src/pokemons.js"></script>
 </body>
