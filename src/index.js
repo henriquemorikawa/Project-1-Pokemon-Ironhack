@@ -73,10 +73,21 @@ class Game {
     }
 
     endGame(winner){
+        console.log('acabou')
+        console.log(winner)
+
         if(winner === "player"){
+            // const audio = new Audio("./music/battlemusic.mp3");
+            audio.pause();
             this.context.drawImage(this.winGameImage, 0, 0, this.canvas.width, this.canvas.height);
+            const audioWon = new Audio("./music/youwonsound.mp3");
+            audioWon.play();
         } else if(winner === "PC"){
+            // const audio = new Audio("./music/battlemusic.mp3");
+            audio.pause();
             this.context.drawImage(this.looseGameImage, 0, 0, this.canvas.width, this.canvas.height);
+            const audioLoose = new Audio("./music/youlose.wav");
+            audioLoose.play();
         }
         document.querySelector('#fight').style.display = 'none'
         document.querySelector('#attack').style.display = 'none'
@@ -86,11 +97,13 @@ class Game {
     }
 }
 
+const audio = new Audio("./music/battlemusic.mp3");
 
 window.onload = () => {
     if(document.querySelector('#start').innerHTML === "Play!"){
 
         document.querySelector('#start').onclick = () => {
+            audio.play();
             document.querySelector('#start').innerHTML = "Restart"
             const canvas = document.querySelector('canvas')
             const context = canvas.getContext('2d')
