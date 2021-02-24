@@ -6,8 +6,6 @@ class Pokemon {
         this.posX = posX;
         this.posY = posY;
         this.image = image;
-        this.height = 10;
-        this.width = 10;
         this.attack = attack;
         this.defense = defense;
         this.speed = speed;
@@ -63,8 +61,8 @@ class Game {
     
     startGame(){
         this.drawField()
-        this.playerPokemon.drawPlayerPokemon() 
-        this.pcPokemon.drawPcPokemon()
+        this.playerPokemon[0].drawPlayerPokemon() 
+        this.pcPokemon[0].drawPcPokemon()
         if(document.querySelector('#start').innerHTML === "Restart"){            
             document.querySelector('#start').onclick = () => {
                 location.reload()
@@ -72,18 +70,41 @@ class Game {
         }
     }
 
-    endGame(winner){
-        console.log('acabou')
-        console.log(winner)
+    changePokemon(name, plPokemons,pPokemons){
+        if(name === "PC"){
+            if(pcPokemons[0].hp<0 && pcPokemons[1].hp<0 && pcPokemons[2].hp<0){
+                return this.endGame("player")
+            } else if (pcPokemons[0].hp<0 && pcPokemons[1].hp<0 && pcPokemons[2].hp>0){
+                this.drawField()
+                plPokemons.drawPlayerPokemon()
+                pcPokemons[2].drawPcPokemon()
+            } else if(pcPokemons[0].hp<0 && pcPokemons[1].hp>0 && pcPokemons[2].hp>0){
+                this.drawField()
+                plPokemons.drawPlayerPokemon()
+                pcPokemons[1].drawPcPokemon()
+            }
+        } else if(name === "player"){
+            if(playerPokemons[0].hp<0 && playerPokemons[1].hp<0 && playerPokemons[2].hp<0){
+                return this.endGame("PC")
+            } else if (playerPokemons[0].hp<0 && playerPokemons[1].hp<0 && playerPokemons[2].hp>0){
+                this.drawField()
+                pPokemons.drawPcPokemon()
+                playerPokemons[2].drawPlayerPokemon()
+            } else if(playerPokemons[0].hp<0 && playerPokemons[1].hp>0 && playerPokemons[2].hp>0){
+                this.drawField()
+                pPokemons.drawPcPokemon()
+                playerPokemons[1].drawPlayerPokemon()
+            }
+        }
+    }
 
+    endGame(winner){
         if(winner === "player"){
-            // const audio = new Audio("./music/battlemusic.mp3");
             audio.pause();
             this.context.drawImage(this.winGameImage, 0, 0, this.canvas.width, this.canvas.height);
             const audioWon = new Audio("./music/youwonsound.mp3");
             audioWon.play();
         } else if(winner === "PC"){
-            // const audio = new Audio("./music/battlemusic.mp3");
             audio.pause();
             this.context.drawImage(this.looseGameImage, 0, 0, this.canvas.width, this.canvas.height);
             const audioLoose = new Audio("./music/youlose.wav");
@@ -92,6 +113,7 @@ class Game {
         document.querySelector('#fight').style.display = 'none'
         document.querySelector('#attack').style.display = 'none'
         document.querySelector('#defense').style.display = 'none'
+        document.querySelector('#hp').style.display = 'none'
         document.querySelector('#playertext').style.display = 'none'
         document.querySelector('#pctext').style.display = 'none'
     }
@@ -113,170 +135,159 @@ window.onload = () => {
                 document.querySelector('#fight').style.display = 'block'
                 document.querySelector('#attack').style.display = 'block'
                 document.querySelector('#defense').style.display = 'block'
-                
+                document.querySelector('#hp').style.display = 'block'
     
-                const game = new Game(canvas, context, playerFirstPokemon, pcFirstPokemon, bgImage)
+                const game = new Game(canvas, context, playerPokemons, pcPokemons, bgImage)
                 game.startGame()
             }
         } 
         
     }
 }
-    
 
 function randomPcMove(playerPokemon, pcPokemon){
-    const pcMoves = ['fight', 'attack', 'defense']
+    const pcMoves = ['fight', 'attack', 'defense', 'hp']
     const pcMovesIndex = [Math.floor(Math.random()*pcMoves.length)]
-    console.log(pcMoves[pcMovesIndex])
     switch (pcMoves[pcMovesIndex]){
         case "fight":
-            console.log('teste1')
-            console.log(playerPokemon.hp)
             document.querySelector('#pctext').innerHTML = `${pcPokemon.name} attacked`
             playerPokemon.hp -= ((3*pcPokemon.attack-playerPokemon.defense)/3)
             return playerPokemon.hp
         case "attack":
-            console.log('teste2')
-            console.log(pcPokemon.attack)
             document.querySelector('#pctext').innerHTML = `${pcPokemon.name} +att`
             pcPokemon.attack += 20
             return pcPokemon.attack
         case "defense":
-            console.log('teste3')
-            console.log(playerPokemon.defense)
             document.querySelector('#pctext').innerHTML = `${playerPokemon.name} -def`
             playerPokemon.defense -= 10
             return playerPokemon.defense
+        case "hp":
+            if(pcPokemon.hp === 210){
+                document.querySelector('#pctext').innerHTML = `${pcPokemon.name} attacked`
+                playerPokemon.hp -= ((3*pcPokemon.attack-playerPokemon.defense)/3)
+                return playerPokemon.hp 
+            }
+            document.querySelector('#pctext').innerHTML = `${pcPokemon.name} +HP`
+            if(pcPokemon.hp > 190){
+                pcPokemon.hp = 210
+                return pcPokemon.hp
+            } else {
+                pcPokemon.hp += 20
+                return pcPokemon.hp
+            }
+               
     }
 }
 
 
-document.querySelector('#fight').onclick = () =>{
+
+function buttons(buttonName, playerPokemons, pcPokemons){
     const canvas = document.querySelector('canvas')
     const context = canvas.getContext('2d')
     const bgImage = new Image();
     bgImage.src = './images/battle-BG.png'
-    const game = new Game(canvas, context, playerFirstPokemon, pcFirstPokemon, bgImage)
-    // console.log('player hp antes '+playerFirstPokemon.hp)
-    // console.log('pc hp antes '+pcFirstPokemon.hp)
+    const game = new Game(canvas, context, playerPokemons, pcPokemons, bgImage)
 
-    if(playerFirstPokemon.speed >= pcFirstPokemon.speed){
-        if(pcFirstPokemon.hp>0){
-            document.querySelector('#playertext').innerHTML = `${playerFirstPokemon.name} attacked`
-            pcFirstPokemon.hp -= playerFirstPokemon.fight(playerFirstPokemon.attack, pcFirstPokemon.defense)
-            pcFirstPokemon.pcHpBar(pcFirstPokemon.hp)
-            // console.log("damage " + playerFirstPokemon.fight(playerFirstPokemon.attack, pcFirstPokemon.defense))
-            if(pcFirstPokemon.hp<=0){
-                return game.endGame("player")
-            } else{
-                randomPcMove(playerFirstPokemon,pcFirstPokemon)
-                // playerFirstPokemon.hp -= pcFirstPokemon.fight(pcFirstPokemon.attack, playerFirstPokemon.defense)
-                playerFirstPokemon.playerHpBar(playerFirstPokemon.hp)               
+    if(playerPokemons.speed >= pcPokemons.speed){
+        if(pcPokemons.hp>0){
+            switch(buttonName){
+                case "#fight":
+                    document.querySelector('#playertext').innerHTML = `${playerPokemons.name} attacked`
+                    pcPokemons.hp -= playerPokemons.fight(playerPokemons.attack, playerPokemons.defense)
+                    pcPokemons.pcHpBar(pcPokemons.hp)
+                    break
+                case "#attack":
+                    document.querySelector('#playertext').innerHTML = `${playerPokemons.name} +att`
+                    playerPokemons.attack += 20
+                    break
+                case "#defense":
+                    document.querySelector('#playertext').innerHTML = `${pcPokemons.name} -def`
+                    pcPokemons.defense -= 10
+                    break
+                case "#hp":
+                    document.querySelector('#playertext').innerHTML = `${playerPokemons.name} +HP`
+                    if(playerPokemons.hp > 195){
+                        playerPokemons.hp = 210
+                        break
+                    } else {
+                        playerPokemons.hp += 15
+                        break
+                    }
+            }        
+            if(pcPokemons.hp<=0){
+                return game.changePokemon("PC", playerPokemons,pcPokemons)
+            } else {
+                randomPcMove(playerPokemons,pcPokemons)
+                playerPokemons.playerHpBar(playerPokemons.hp) 
             }
-            if(playerFirstPokemon.hp<=0){
-                return game.endGame("PC")
+            if(playerPokemons.hp<=0){
+                return game.changePokemon("player", playerPokemons,pcPokemons)
             }
-            // console.log('player hp depois '+playerFirstPokemon.hp)
-            // console.log('pc hp depois '+pcFirstPokemon.hp)
-            return playerFirstPokemon.hp, pcFirstPokemon.hp
+            return playerPokemons.hp, playerPokemons.attack, playerPokemons.defense, pcPokemons.hp
         } 
     } else {
-        if(playerFirstPokemon.hp>0){
-            randomPcMove(playerFirstPokemon,pcFirstPokemon)
-
-            // playerFirstPokemon.hp -= pcFirstPokemon.fight(pcFirstPokemon.attack, playerFirstPokemon.defense)
-            playerFirstPokemon.playerHpBar(playerFirstPokemon.hp)
-            // console.log("damage " + pcFirstPokemon.fight(pcFirstPokemon.attack, playerFirstPokemon.defense))
-            if(playerFirstPokemon.hp<=0){
-                return game.endGame("PC")
+        if(playerPokemons.hp>0){
+            randomPcMove(playerPokemons,pcPokemons)
+            playerPokemons.playerHpBar(playerPokemons.hp)
+            if(playerPokemons.hp<=0){
+                return game.changePokemon("player", playerPokemons,pcPokemons)
             } else{
-                document.querySelector('#playertext').innerHTML = `${playerFirstPokemon.name} attacked`
-                pcFirstPokemon.hp -= playerFirstPokemon.fight(playerFirstPokemon.attack, pcFirstPokemon.defense)
-                pcFirstPokemon.pcHpBar(pcFirstPokemon.hp)
+                switch(buttonName){
+                    case "#fight":
+                        document.querySelector('#playertext').innerHTML = `${playerPokemons.name} attacked`
+                        pcPokemons.hp -= playerPokemons.fight(playerPokemons.attack, playerPokemons.defense)
+                        pcPokemons.pcHpBar(pcPokemons.hp)
+                        break
+                    case "#attack":
+                        document.querySelector('#playertext').innerHTML = `${playerPokemons.name} +att`
+                        playerPokemons.attack += 20
+                        break
+                    case "#defense":
+                        document.querySelector('#playertext').innerHTML = `${pcPokemons.name} -def`
+                        pcPokemons.defense -= 10
+                        break
+                    case "#hp":
+                        document.querySelector('#playertext').innerHTML = `${playerPokemons.name} +HP`
+                        if(playerPokemons.hp > 195){
+                            playerPokemons.hp = 210
+                            break
+                        } else {
+                            playerPokemons.hp += 15
+                            break
+                        }             
+                }  
             }
-            if(pcFirstPokemon.hp<=0){
-                return game.endGame("player")
+            if(pcPokemons.hp<=0){
+                return game.changePokemon("PC", playerPokemons,pcPokemons)
             } 
-            // console.log('player hp depois '+playerFirstPokemon.hp)
-            // console.log('pc hp depois '+pcFirstPokemon.hp)
-            return playerFirstPokemon.hp, pcFirstPokemon.hp
+            return playerPokemons.hp, playerPokemons.attack, playerPokemons.defense, pcPokemons.hp
         } 
     }
+}
+
+function isHpPositive(pokemonArray){
+    if(pokemonArray[0].hp<=0 && pokemonArray[1].hp<=0){
+        return pokemonArray[2]
+    } else if(pokemonArray[0].hp<=0){
+        return pokemonArray[1]
+    } else {
+        return pokemonArray[0]
+    }
+}
+
+document.querySelector('#fight').onclick = () =>{
+    buttons("#fight", isHpPositive(playerPokemons), isHpPositive(pcPokemons))
 }
 
 document.querySelector('#attack').onclick = () =>{
-    const canvas = document.querySelector('canvas')
-    const context = canvas.getContext('2d')
-    const bgImage = new Image();
-    bgImage.src = './images/battle-BG.png'
-    const game = new Game(canvas, context, playerFirstPokemon, pcFirstPokemon, bgImage)
-
-    if(playerFirstPokemon.speed >= pcFirstPokemon.speed){
-        if(pcFirstPokemon.hp>0){
-            document.querySelector('#playertext').innerHTML = `${playerFirstPokemon.name} +att`
-
-            playerFirstPokemon.attack += 20
-            randomPcMove(playerFirstPokemon,pcFirstPokemon)
-            playerFirstPokemon.playerHpBar(playerFirstPokemon.hp)               
-            
-            if(playerFirstPokemon.hp<=0){
-                return game.endGame("PC")
-            }
-
-            return playerFirstPokemon.hp, playerFirstPokemon.attack
-        } 
-    } else {
-        if(playerFirstPokemon.hp>0){
-            randomPcMove(playerFirstPokemon,pcFirstPokemon)
-            playerFirstPokemon.playerHpBar(playerFirstPokemon.hp)
-            if(playerFirstPokemon.hp<=0){
-                return game.endGame("PC")
-            } else{
-                document.querySelector('#playertext').innerHTML = `${playerFirstPokemon.name} +att`
-                playerFirstPokemon.attack += 20
-            }
-    
-            return playerFirstPokemon.hp, playerFirstPokemon.attack
-        } 
-    }
-    
+    buttons("#attack", isHpPositive(playerPokemons), isHpPositive(pcPokemons))
 }
 
 document.querySelector('#defense').onclick = () =>{
-    const canvas = document.querySelector('canvas')
-    const context = canvas.getContext('2d')
-    const bgImage = new Image();
-    bgImage.src = './images/battle-BG.png'
-    const game = new Game(canvas, context, playerFirstPokemon, pcFirstPokemon, bgImage)
+    buttons("#defense", isHpPositive(playerPokemons), isHpPositive(pcPokemons))
+}
 
-    if(playerFirstPokemon.speed >= pcFirstPokemon.speed){
-        if(pcFirstPokemon.hp>0){
-            document.querySelector('#playertext').innerHTML = `${pcFirstPokemon.name} -def`
-            pcFirstPokemon.defense -= 10
-            randomPcMove(playerFirstPokemon,pcFirstPokemon)
-            playerFirstPokemon.playerHpBar(playerFirstPokemon.hp)               
-            
-            if(playerFirstPokemon.hp<=0){
-                return game.endGame("PC")
-            }
-
-            return playerFirstPokemon.hp, playerFirstPokemon.defense
-        } 
-    } else {
-        if(playerFirstPokemon.hp>0){
-            randomPcMove(playerFirstPokemon,pcFirstPokemon)
-            playerFirstPokemon.playerHpBar(playerFirstPokemon.hp)
-            if(playerFirstPokemon.hp<=0){
-                return game.endGame("PC")
-            } else{
-                document.querySelector('#playertext').innerHTML = `${pcFirstPokemon.name} -def`
-
-                pcFirstPokemon.defense -= 10
-            }
-    
-            return playerFirstPokemon.hp, playerFirstPokemon.defense
-        } 
-    }
-    
+document.querySelector('#hp').onclick = () =>{
+    buttons("#hp", isHpPositive(playerPokemons), isHpPositive(pcPokemons))
 }
 

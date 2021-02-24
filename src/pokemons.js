@@ -62,6 +62,9 @@ function pickPcPokemon(pokedex){
 
 }
 
+const playerPokemons = [pickPokemon(pokedex), pickPokemon(pokedex), pickPokemon(pokedex)]
+const pcPokemons = [pickPokemon(pokedex), pickPokemon(pokedex), pickPokemon(pokedex)]
+
 const playerFirstPokemon = pickPokemon(pokedex)
 const playerSecondPokemon = pickPokemon(pokedex)
 const playerThirdPokemon = pickPokemon(pokedex)
@@ -69,6 +72,7 @@ const playerThirdPokemon = pickPokemon(pokedex)
 const pcFirstPokemon = pickPcPokemon(pokedex)
 const pcSecondPokemon = pickPcPokemon(pokedex)
 const pcThirdPokemon = pickPcPokemon(pokedex)
+
 
 
 
