@@ -72,25 +72,25 @@ class Game {
 
     changePokemon(name, plPokemons,pPokemons){
         if(name === "PC"){
-            if(pcPokemons[0].hp<0 && pcPokemons[1].hp<0 && pcPokemons[2].hp<0){
+            if(pcPokemons[0].hp<=0 && pcPokemons[1].hp<=0 && pcPokemons[2].hp<=0){
                 return this.endGame("player")
-            } else if (pcPokemons[0].hp<0 && pcPokemons[1].hp<0 && pcPokemons[2].hp>0){
+            } else if (pcPokemons[0].hp<=0 && pcPokemons[1].hp<=0 && pcPokemons[2].hp>0){
                 this.drawField()
                 plPokemons.drawPlayerPokemon()
                 pcPokemons[2].drawPcPokemon()
-            } else if(pcPokemons[0].hp<0 && pcPokemons[1].hp>0 && pcPokemons[2].hp>0){
+            } else if(pcPokemons[0].hp<=0 && pcPokemons[1].hp>0 && pcPokemons[2].hp>0){
                 this.drawField()
                 plPokemons.drawPlayerPokemon()
                 pcPokemons[1].drawPcPokemon()
             }
         } else if(name === "player"){
-            if(playerPokemons[0].hp<0 && playerPokemons[1].hp<0 && playerPokemons[2].hp<0){
+            if(playerPokemons[0].hp<=0 && playerPokemons[1].hp<=0 && playerPokemons[2].hp<=0){
                 return this.endGame("PC")
-            } else if (playerPokemons[0].hp<0 && playerPokemons[1].hp<0 && playerPokemons[2].hp>0){
+            } else if (playerPokemons[0].hp<=0 && playerPokemons[1].hp<=0 && playerPokemons[2].hp>0){
                 this.drawField()
                 pPokemons.drawPcPokemon()
                 playerPokemons[2].drawPlayerPokemon()
-            } else if(playerPokemons[0].hp<0 && playerPokemons[1].hp>0 && playerPokemons[2].hp>0){
+            } else if(playerPokemons[0].hp<=0 && playerPokemons[1].hp>0 && playerPokemons[2].hp>0){
                 this.drawField()
                 pPokemons.drawPcPokemon()
                 playerPokemons[1].drawPlayerPokemon()
@@ -146,7 +146,7 @@ window.onload = () => {
 }
 
 function randomPcMove(playerPokemon, pcPokemon){
-    const pcMoves = ['fight', 'attack', 'defense', 'hp']
+    const pcMoves = ['fight', 'attack', 'hp']
     const pcMovesIndex = [Math.floor(Math.random()*pcMoves.length)]
     switch (pcMoves[pcMovesIndex]){
         case "fight":
@@ -155,12 +155,8 @@ function randomPcMove(playerPokemon, pcPokemon){
             return playerPokemon.hp
         case "attack":
             document.querySelector('#pctext').innerHTML = `${pcPokemon.name} +att`
-            pcPokemon.attack += 20
+            pcPokemon.attack += 30
             return pcPokemon.attack
-        case "defense":
-            document.querySelector('#pctext').innerHTML = `${playerPokemon.name} -def`
-            playerPokemon.defense -= 10
-            return playerPokemon.defense
         case "hp":
             if(pcPokemon.hp === 210){
                 document.querySelector('#pctext').innerHTML = `${pcPokemon.name} attacked`
@@ -168,11 +164,11 @@ function randomPcMove(playerPokemon, pcPokemon){
                 return playerPokemon.hp 
             }
             document.querySelector('#pctext').innerHTML = `${pcPokemon.name} +HP`
-            if(pcPokemon.hp > 190){
+            if(pcPokemon.hp > 160){
                 pcPokemon.hp = 210
                 return pcPokemon.hp
             } else {
-                pcPokemon.hp += 20
+                pcPokemon.hp += 50
                 return pcPokemon.hp
             }
                
@@ -207,10 +203,14 @@ function buttons(buttonName, playerPokemons, pcPokemons){
                 case "#hp":
                     document.querySelector('#playertext').innerHTML = `${playerPokemons.name} +HP`
                     if(playerPokemons.hp > 195){
+                        console.log("teste1")
                         playerPokemons.hp = 210
+                        playerPokemons.pcHpBar(playerPokemons.hp)
                         break
                     } else {
+                        console.log("teste2")
                         playerPokemons.hp += 15
+                        playerPokemons.playerHpBar(playerPokemons.hp)
                         break
                     }
             }        
@@ -218,7 +218,8 @@ function buttons(buttonName, playerPokemons, pcPokemons){
                 return game.changePokemon("PC", playerPokemons,pcPokemons)
             } else {
                 randomPcMove(playerPokemons,pcPokemons)
-                playerPokemons.playerHpBar(playerPokemons.hp) 
+                playerPokemons.playerHpBar(playerPokemons.hp)
+                pcPokemons.pcHpBar(pcPokemons.hp)  
             }
             if(playerPokemons.hp<=0){
                 return game.changePokemon("player", playerPokemons,pcPokemons)
@@ -229,6 +230,7 @@ function buttons(buttonName, playerPokemons, pcPokemons){
         if(playerPokemons.hp>0){
             randomPcMove(playerPokemons,pcPokemons)
             playerPokemons.playerHpBar(playerPokemons.hp)
+            pcPokemons.pcHpBar(pcPokemons.hp) 
             if(playerPokemons.hp<=0){
                 return game.changePokemon("player", playerPokemons,pcPokemons)
             } else{
@@ -249,10 +251,16 @@ function buttons(buttonName, playerPokemons, pcPokemons){
                     case "#hp":
                         document.querySelector('#playertext').innerHTML = `${playerPokemons.name} +HP`
                         if(playerPokemons.hp > 195){
+                            console.log("teste3")
+
                             playerPokemons.hp = 210
+                            playerPokemons.playerHpBar(playerPokemons.hp)
                             break
                         } else {
+                            console.log("teste4")
+
                             playerPokemons.hp += 15
+                            playerPokemons.playerHpBar(playerPokemons.hp)
                             break
                         }             
                 }  
