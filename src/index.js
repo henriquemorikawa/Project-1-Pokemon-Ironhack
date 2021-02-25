@@ -202,14 +202,14 @@ function buttons(buttonName, playerPokemons, pcPokemons){
                     break
                 case "#hp":
                     document.querySelector('#playertext').innerHTML = `${playerPokemons.name} +HP`
-                    if(playerPokemons.hp > 195){
+                    if(playerPokemons.hp > 190){
                         console.log("teste1")
                         playerPokemons.hp = 210
                         playerPokemons.pcHpBar(playerPokemons.hp)
                         break
                     } else {
                         console.log("teste2")
-                        playerPokemons.hp += 15
+                        playerPokemons.hp += 20
                         playerPokemons.playerHpBar(playerPokemons.hp)
                         break
                     }
@@ -250,7 +250,7 @@ function buttons(buttonName, playerPokemons, pcPokemons){
                         break
                     case "#hp":
                         document.querySelector('#playertext').innerHTML = `${playerPokemons.name} +HP`
-                        if(playerPokemons.hp > 195){
+                        if(playerPokemons.hp > 190){
                             console.log("teste3")
 
                             playerPokemons.hp = 210
@@ -259,7 +259,7 @@ function buttons(buttonName, playerPokemons, pcPokemons){
                         } else {
                             console.log("teste4")
 
-                            playerPokemons.hp += 15
+                            playerPokemons.hp += 20
                             playerPokemons.playerHpBar(playerPokemons.hp)
                             break
                         }             

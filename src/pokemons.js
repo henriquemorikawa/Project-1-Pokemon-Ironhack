@@ -1,7 +1,7 @@
 const canvas = document.querySelector('canvas')
 const context = canvas.getContext('2d')
 
-const pokedexImages = ["blastoise", "charizard", "corongo", "dragonite", "gengar", "gyarados", "mewtwo", "onix", "pidgeot", "vax", "venusaur", "alakazam", "arcanine", "blaziken","crobat","feraligatr","gardevoir","glalie","machamp","manectric","meganium","metagross","nidoking","nidoqueen","pikachu","salamence","sceptile","scizor","snorlax","swampert","typhlosion","tyranitar"]
+const pokedexImages = ["Blastoise", "Charizard", "Corongo", "Dragonite", "Gengar", "gyarados", "Mewtwo", "Onix", "Pidgeot", "Vax", "Venusaur", "alakazam", "arcanine", "blaziken","crobat","feraligatr","gardevoir","glalie","machamp","manectric","meganium","metagross","nidoking","nidoqueen","pikachu","salamence","sceptile","scizor","snorlax","swampert","typhlosion","tyranitar"]
 
 const imagesArray = pokedexImages.map((name)=>{
     const image = new Image();
