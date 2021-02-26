@@ -125,7 +125,7 @@ window.onload = () => {
     if(document.querySelector('#start').innerHTML === "Play!"){
 
         document.querySelector('#start').onclick = () => {
-            // audio.play();
+            audio.play();
             document.querySelector('#start').innerHTML = "Restart"
             const canvas = document.querySelector('canvas')
             const context = canvas.getContext('2d')

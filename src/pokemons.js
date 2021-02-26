@@ -9,8 +9,6 @@ const imagesArray = pokedexImages.map((name)=>{
     return image
 })
 
-console.log(imagesArray)
-
 const blastoise = new Pokemon(canvas, context, 'blastoise', 0, 0, imagesArray[0], 95, 115, 78, 210)
 const charizard = new Pokemon(canvas, context, 'charizard', 0, 0, imagesArray[1], 109, 85, 100, 210)
 const corongo = new Pokemon(canvas, context, 'corongo', 0, 0, imagesArray[2], 80, 120, 100, 210)
