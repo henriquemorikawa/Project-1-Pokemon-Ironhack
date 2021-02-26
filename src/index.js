@@ -50,9 +50,9 @@ class Game {
         this.pcPokemon = pcPokemon;
         this.backgroundImage = backgroundImage;
         this.winGameImage = new Image();
-        this.winGameImage.src = "./images/You-win.png"
+        this.winGameImage.src = "./images/You-Win.png"
         this.looseGameImage = new Image();
-        this.looseGameImage.src = "./images/You-loose.png"
+        this.looseGameImage.src = "./images/You-Loose.png"
     }
 
     drawField(){
@@ -125,7 +125,7 @@ window.onload = () => {
     if(document.querySelector('#start').innerHTML === "Play!"){
 
         document.querySelector('#start').onclick = () => {
-            audio.play();
+            // audio.play();
             document.querySelector('#start').innerHTML = "Restart"
             const canvas = document.querySelector('canvas')
             const context = canvas.getContext('2d')
@@ -202,14 +202,14 @@ function buttons(buttonName, playerPokemons, pcPokemons){
                     break
                 case "#hp":
                     document.querySelector('#playertext').innerHTML = `${playerPokemons.name} +HP`
-                    if(playerPokemons.hp > 195){
+                    if(playerPokemons.hp > 190){
                         console.log("teste1")
                         playerPokemons.hp = 210
                         playerPokemons.pcHpBar(playerPokemons.hp)
                         break
                     } else {
                         console.log("teste2")
-                        playerPokemons.hp += 15
+                        playerPokemons.hp += 20
                         playerPokemons.playerHpBar(playerPokemons.hp)
                         break
                     }
@@ -250,7 +250,7 @@ function buttons(buttonName, playerPokemons, pcPokemons){
                         break
                     case "#hp":
                         document.querySelector('#playertext').innerHTML = `${playerPokemons.name} +HP`
-                        if(playerPokemons.hp > 195){
+                        if(playerPokemons.hp > 190){
                             console.log("teste3")
 
                             playerPokemons.hp = 210
@@ -259,7 +259,7 @@ function buttons(buttonName, playerPokemons, pcPokemons){
                         } else {
                             console.log("teste4")
 
-                            playerPokemons.hp += 15
+                            playerPokemons.hp += 20
                             playerPokemons.playerHpBar(playerPokemons.hp)
                             break
                         }             
