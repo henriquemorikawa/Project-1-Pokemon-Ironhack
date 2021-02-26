@@ -50,9 +50,9 @@ class Game {
         this.pcPokemon = pcPokemon;
         this.backgroundImage = backgroundImage;
         this.winGameImage = new Image();
-        this.winGameImage.src = "./images/You-win.png"
+        this.winGameImage.src = "./images/You-Win.png"
         this.looseGameImage = new Image();
-        this.looseGameImage.src = "./images/You-loose.png"
+        this.looseGameImage.src = "./images/You-Loose.png"
     }
 
     drawField(){
@@ -125,7 +125,7 @@ window.onload = () => {
     if(document.querySelector('#start').innerHTML === "Play!"){
 
         document.querySelector('#start').onclick = () => {
-            audio.play();
+            // audio.play();
             document.querySelector('#start').innerHTML = "Restart"
             const canvas = document.querySelector('canvas')
             const context = canvas.getContext('2d')
